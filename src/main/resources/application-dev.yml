@@ -5,3 +5,9 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
+    friends:
+      - hobby: football
+        sex: male
+      - hobby: baskball
+        sex: female
