@@ -1,2 +1,9 @@
 server:
   port: 8888
+#port ${random.int[1024,65536]}
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # profiles:
+  #   active: dev/test/prod
