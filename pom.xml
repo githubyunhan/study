@@ -48,14 +48,14 @@
         </dependency>
 
         <!--maven依赖包 数据库连接资源jar包-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
