@@ -9,7 +9,7 @@ import org.springframework.core.io.support.EncodedResource;
 import java.io.IOException;
 import java.util.Properties;
 
-public class MinPropertySourceFactory extends DefaultPropertySourceFactory {
+public class MinPropertySourceFactory extends DefaultPropertySourceFactory {/*导入外部配置文件，.properties文件不使用factory属性*/
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
         String sourceName = name != null ? name : resource.getResource().getFilename();
