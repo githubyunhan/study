@@ -5,6 +5,31 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+#jta配置信息
+primarydb:
+  uniqueResourceConnectionName: primary
+  xaDataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+  xaProperties:
+    url: jdbc:mysql://localhost:3306/studydb?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    user: root
+    password: root
+  exclusiveConnectionMode: true
+  minPoolSize: 3
+  maxPoolSize: 10
+  testQuery: SELECT 1 from dual #由于采用HikiriCP,用于检测数据库连接是否存活
+
+secondarydb:
+  uniqueResourceConnectionName: secondary
+  xaDataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+  xaProperties:
+    url: jdbc:mysql://localhost:3306/readerdb?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    user: root
+    password: root
+  exclusiveConnectionMode: true
+  minPoolSize: 3
+  maxPoolSize: 10
+  testQuery: SELECT 1 from dual #由于采用HikiriCP,用于检测数据库连接是否存活
+
 #spring:
 #  datasource:
 #      url: jdbc:mysql://localhost:3306/studydb?useUnicode=true&characterEncoding=utf-8&useSSL=false
@@ -12,15 +37,15 @@ spring:
 #      password: root
 #      driver-class-name: com.mysql.jdbc.Driver
 #配置数据源信息的全局格式，其他均为自定义格式
-  datasource:
-    primary:
-      jdbc-url: jdbc:mysql://localhost:3306/studydb?useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: root
-      password: root
-      driver-class-name: com.mysql.jdbc.Driver
-    secondary:
-      jdbc-url: jdbc:mysql://localhost:3306/readerdb?useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: root
-      password: root
-      driver-class-name: com.mysql.jdbc.Driver
 
+#datasource:自定义数据源
+  #    primary:
+  #      jdbc-url: jdbc:mysql://localhost:3306/studydb?useUnicode=true&characterEncoding=utf-8&useSSL=false
+  #      username: root
+  #      password: root
+  #      driver-class-name: com.mysql.jdbc.Driver
+  #    secondary:
+  #      jdbc-url: jdbc:mysql://localhost:3306/readerdb?useUnicode=true&characterEncoding=utf-8&useSSL=false
+  #      username: root
+  #      password: root
+  #      driver-class-name: com.mysql.jdbc.Driver

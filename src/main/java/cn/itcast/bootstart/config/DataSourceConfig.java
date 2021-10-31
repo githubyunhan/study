@@ -2,38 +2,37 @@ package cn.itcast.bootstart.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
+import javax.sql.DataSource;/*使用jta分布式管理，避免了数据脏读*/
 @Configuration
-public class DataSourceConfig {/*访问多个数据库时，需要连接配置文件的配置代码*/
+public class DataSourceConfig {/*访问多个数据库前，连接配文件，生成数据源*/
 
-    @Primary/*众多相同的bean时，优先使用该注解的资源*/
-    @Bean(name = "primaryDataSource")/*告诉方法，产生该名称的bean对象,交给spring管理*/
-    @Qualifier("primaryDataSource")/*该注解表名哪个bean被注入*/
-    @ConfigurationProperties(prefix = "spring.datasource.primary")
+    @Bean(initMethod = "init",destroyMethod = "close",name = "primaryDataSource")
+    @Primary
+    @ConfigurationProperties(prefix = "primarydb")
     public DataSource primaryDataSource(){
-        return DataSourceBuilder.create().build();
+        return new AtomikosDataSourceBean();/*AtomikosDataSourceBean属于DataSourceBean的子类*/
     }
 
-    @Bean(name = "secondaryDataSource")
-    @Qualifier("secondaryDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.secondary")
+    //jta数据源
+    @Bean(initMethod = "init",destroyMethod = "close",name = "secondaryDataSource")
+    @ConfigurationProperties(prefix = "secondarydb")
     public DataSource secondaryDataSource(){
-        return DataSourceBuilder.create().build();
+            return new AtomikosDataSourceBean();
     }
 
-    @Bean(name = "primaryJdbcTemplate")
-    public JdbcTemplate primaryJdbcTemplate(@Qualifier("primaryDataSource") DataSource dataSource){
-        return new JdbcTemplate(dataSource);
+    @Bean
+    public JdbcTemplate primaryJdbcTemplate(@Qualifier("primaryDataSource") DataSource primaryDataSource){
+        return new JdbcTemplate(primaryDataSource);
     }
 
-    @Bean(name = "secondaryJdbcTemplate")
-    public JdbcTemplate secondaryJdbcTemplate(@Qualifier("secondaryDataSource") DataSource dataSource){
-        return new JdbcTemplate(dataSource);
+    @Bean
+    public JdbcTemplate secondaryJdbcTemplate(@Qualifier("secondaryDataSource") DataSource secondaryJdbcTemplate){
+        return new JdbcTemplate(secondaryJdbcTemplate);
     }
 }
