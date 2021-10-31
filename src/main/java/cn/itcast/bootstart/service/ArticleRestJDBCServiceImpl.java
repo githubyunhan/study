@@ -3,7 +3,6 @@ package cn.itcast.bootstart.service;
 import cn.itcast.bootstart.dao.ArticleJDBCDAO;
 import cn.itcast.bootstart.model.Article;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,45 +16,33 @@ public class ArticleRestJDBCServiceImpl implements ArticleRestService {
     @Resource
     ArticleJDBCDAO articleJDBCDAO;
 
-    @Resource
-    JdbcTemplate primaryJdbcTemplate;
-
-    @Resource
-    JdbcTemplate secondaryJdbcTemplate;
-
     @Transactional//做事务管理
     @Override
     public Article saveArticle(Article article) {
 
-        articleJDBCDAO.save(article,primaryJdbcTemplate);
-
-        articleJDBCDAO.save(article,secondaryJdbcTemplate);
+        articleJDBCDAO.save(article);
         return article;
     }
 
     @Override
     public void deleteArticle(Long id) {
 
-        articleJDBCDAO.deleteById(id,primaryJdbcTemplate);
-
-        articleJDBCDAO.deleteById(id,secondaryJdbcTemplate);
+        articleJDBCDAO.deleteById(id);
     }
 
     @Override
     public void updateArticle(Article article) {
 
-        articleJDBCDAO.updateById(article,primaryJdbcTemplate);
-
-        articleJDBCDAO.updateById(article,secondaryJdbcTemplate);
+        articleJDBCDAO.updateById(article);
     }
 
     @Override
     public Article getArticle(Long id) {
-        return articleJDBCDAO.findById(id,primaryJdbcTemplate);
+        return articleJDBCDAO.findById(id);
     }
 
     @Override
     public List<Article> getAll() {
-        return articleJDBCDAO.findAll(primaryJdbcTemplate);
+        return articleJDBCDAO.findAll();
     }
 }
