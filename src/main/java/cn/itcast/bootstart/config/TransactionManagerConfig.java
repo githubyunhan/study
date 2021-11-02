@@ -13,7 +13,7 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 @Configuration
-public class TransactionManagerConfig {/*事务管理配置*/
+public class TransactionManagerConfig {/*配置事务管理的设置*/
 
     @Bean
     public UserTransaction userTransaction() throws SystemException {
