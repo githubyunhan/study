@@ -5,17 +5,30 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-  datasource:
-    primary:
-      jdbc-url: jdbc:mysql://localhost:3306/testdb?useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: root
-      password: root
-      driver-class-name: com.mysql.jdbc.Driver
-    secondary:
-      jdbc-url: jdbc:mysql://localhost:3306/testdb2?useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: root
-      password: root
-      driver-class-name: com.mysql.jdbc.Driver
+primarydb:
+  uniqueResourceConnectionName: primary
+  xaDataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+  xaProperties:
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    user: root
+    password: root
+  exclusiveConnectionMode: true
+  minPoolSize: 3
+  maxPoolSize: 10
+  testQuery: SELECT 1 from dual #由于采用HikiriCP,用于检测数据库连接是否存活
+
+secondarydb:
+  uniqueResourceConnectionName: secondary
+  xaDataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+  xaProperties:
+    url: jdbc:mysql://localhost:3306/testdb2?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    user: root
+    password: root
+  exclusiveConnectionMode: true
+  minPoolSize: 3
+  maxPoolSize: 10
+  testQuery: SELECT 1 from dual #由于采用HikiriCP,用于检测数据库连接是否存活
+
 #创建数据库时设置具体的database名称并且在Url路径后加上：?serverTimezone=GMT&useSSL=false在使用mabatis-generat前需要设置,serverTimezone=GMT在配置文件中有无均可，表示时区差
 
 

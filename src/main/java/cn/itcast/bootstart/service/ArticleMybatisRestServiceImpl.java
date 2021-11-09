@@ -2,6 +2,8 @@ package cn.itcast.bootstart.service;
 
 import cn.itcast.bootstart.generator.testdb.Article;
 import cn.itcast.bootstart.generator.testdb.ArticleMapper;
+import cn.itcast.bootstart.generator.testdb2.Message;
+import cn.itcast.bootstart.generator.testdb2.MessageMapper;
 import cn.itcast.bootstart.model.ArticleVO;
 import cn.itcast.bootstart.utils.DozerUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +24,21 @@ public class ArticleMybatisRestServiceImpl implements ArticleRestService {
     @Resource
     private ArticleMapper articleMapper;
 
+    @Resource
+    private MessageMapper messageMapper;
+
     //@Transactional//做事务管理
     @Override
     public ArticleVO saveArticle(ArticleVO article) {
         Article articlePO=dozerMapper.map(article,Article.class);
-
         articleMapper.insert(articlePO);
+
+        Message message = new Message();
+        message.setName("王彬彬");
+        message.setContent("厉害啊！！！");
+        messageMapper.insert(message);
+
+        int i=5/0;
         return article;
     }
 
