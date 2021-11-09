@@ -1,7 +1,5 @@
 package cn.itcast.bootstart.generator.testdb;
 
-import cn.itcast.bootstart.generator.testdb.Article;
-import cn.itcast.bootstart.generator.testdb.ArticleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;/*操作数据库的方法*/
 
